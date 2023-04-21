@@ -6,25 +6,25 @@
 
 using namespace std;
 
-struct Date {
-
-	int day, month, year;
+struct Date {								//vielleicht überflüssig? bzw Sinn ist das Datum als eigenes Struct 
+											//fest zusammen zu haben, allerdings probleme bei dem Schreiben in 
+	int day, month, year;					//die Textfile mit wahrscheinlich der memory allocation.
 };
 
 struct Verbrauch {
 
-	Date day, month, year;
+	int day, month, year;
 	double zaehlerstand;
 	double preis;
 };
 
-vector <Verbrauch> Abbrechnung;
+vector <Verbrauch> Abrechnung;
 
-ostream& operator << (ostream& output, const Date& d)
+/*ostream& operator << (ostream& output, const Date& d)
 {
 	output << d.day << ' ' << d.month << ' ' << d.year;
 	return output;
-}
+}*/
 
 ostream& operator << (ostream& output, Verbrauch& v)
 {
@@ -32,12 +32,19 @@ ostream& operator << (ostream& output, Verbrauch& v)
 	return output;
 }
 
-string Umwandlung( vector <Verbrauch>& Abbrechnung)
+/*istream& operator >> (istream& input, Verbrauch& v)
+{
+	input << v.day << ' ' << v.month << ' ' << v.year << ' ' << v.zaehlerstand << ' ' << v.preis;
+	return input;
+}*/
+
+string Umwandlung( vector <Verbrauch>& Abrechnung)
 {
 	stringstream ss;
-	for (int i = 0; i < Abbrechnung.size(); i++)
+	
+	for (unsigned i = 0; i < Abrechnung.size(); i++)
 	{
-		ss << Abbrechnung[i];
+		ss << Abrechnung[i];
 	}
 
 	return ss.str();
@@ -53,11 +60,10 @@ int main()
 	{
 		Verbrauch added = { 14, 3, 2023, 100, 50 };
 
-		Abbrechnung.push_back(added);
+		Abrechnung.push_back(added);
+		
+		string str = Umwandlung(Abrechnung);
 
-		string str = Umwandlung(Abbrechnung);
-
-		cout << str << endl;
 		Liste.write(str.c_str(), str.size());
 	}
 	
@@ -65,4 +71,23 @@ int main()
 	{
 		cout << "unable to open file" << endl;
 	}	
-}
+	Liste.close();
+
+	for (unsigned i = 0; i < Abrechnung.size(); i++)
+	{
+		//cout << Abrechnung[i] << endl;
+	}
+
+	Abrechnung.clear();
+
+	Liste.open("Test.txt", ios::app | ios::out | ios::in);
+
+	if (Liste.is_open())
+	{
+		istringstream ss;
+		ss >> Liste.rdbuf();
+		string str = ss.str();
+
+		cout << str << endl;
+	}
+} 
