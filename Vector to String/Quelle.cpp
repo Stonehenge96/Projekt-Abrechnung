@@ -21,23 +21,11 @@ struct Verbrauch {
 
 vector <Verbrauch> Abrechnung;
 
-/*ostream& operator << (ostream& output, const Date& d)
-{
-	output << d.day << ' ' << d.month << ' ' << d.year;
-	return output;
-}*/
-
 ostream& operator << (ostream& output, Verbrauch& v)
 {
 	output << v.day << ' ' << v.month << ' ' << v.year << ' ' << v.zaehlerstand << ' ' << v.preis;
 	return output;
 }
-
-/*istream& operator >> (istream& input, Verbrauch& v)
-{
-	input >> v.day >> ' ' >> v.month >> ' ' >> v.year >> ' ' >> v.zaehlerstand >> ' ' >> v.preis;
-	return input;
-}*/
 
 string Umwandlung( vector <Verbrauch>& Abrechnung)
 {
@@ -50,12 +38,6 @@ string Umwandlung( vector <Verbrauch>& Abrechnung)
 
 	return ss.str();
 }
-
-/*stringstream Umwandlung2(string str)
-{
-	for 
-}*/
-
 
 int main()
 { 
@@ -89,27 +71,23 @@ int main()
 
 	if (Liste.is_open())
 	{
-		//Verbrauch Neu = { .day = 0, .month = 0, .year = 0, .zaehlerstand = 0.0, .preis = 0.0 };
 		Verbrauch Neu = { 0, 0, 0, 0.0, 0.0 };
-		string str;
+		string str1, str2;
 		ifstream istream("Test.txt");
-		stringstream ss;
+		
 
-		while (getline(istream, str))
+		while (getline(istream, str1))
 		{
-			cout << str << endl;
-		}
-	
-
-		/*while (ss >> Neu)
-		{
+			istringstream ss(str1);
+			ss >> Neu.day >> Neu.month >> Neu.year >> Neu.zaehlerstand >> Neu.preis;
+			
 			Abrechnung.push_back(Neu);
 		}
 		
 		for (unsigned i = 0; i < Abrechnung.size(); i++)
 		{
 			cout << Abrechnung[i] << endl;
-		}*/
+		}
 		
 		
 		
